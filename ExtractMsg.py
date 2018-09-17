@@ -800,7 +800,7 @@ class Message(OleFile.OleFileIO):
                     ret_messages += attachment.save()
                 attachmentNames.append(attachment.save())
             if toJson:
-                urls = re.findall('((?<=<)\w+:/{2,}.*?(?= |(?<!\\)>)|\b\w+:/{2,}\S+)', decode_utf7(self.body))
+                urls = re.findall("https?://\S+", decode_utf7(self.body))
                 uniq_urls = []
                 for i in urls:
                     if i not in uniq_urls:
