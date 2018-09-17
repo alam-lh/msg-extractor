@@ -800,11 +800,12 @@ class Message(OleFile.OleFileIO):
                     ret_messages += attachment.save()
                 attachmentNames.append(attachment.save())
             if toJson:
-                urls = re.findall("https?://\S+", decode_utf7(self.body))
+                urls = re.findall(r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?\xab\xbb\u201c\u201d\u2018\u2019]))', decode_utf7(self.body))
                 uniq_urls = []
-                for i in urls:
-                    if i not in uniq_urls:
-                        uniq_urls.append(i)
+                for url in urls:
+                    for i in url:
+                    	if 'http' in i and i not in uniq_urls:
+                        	uniq_urls.append(i)
                 emailObj = {'from': xstr(self.sender),
                             'to': xstr(self.to),
                             'cc': xstr(self.cc),
